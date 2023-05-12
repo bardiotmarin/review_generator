@@ -6,7 +6,7 @@ import os
 os.environ['TK_SILENCE_DEPRECATION'] = '1'
 
 # Initialise the API key
-openai.api_key = "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"
+openai.api_key = "YOUR-API-KEY"
 
 # Define the list of available project phaze
 PROJECT = ['Single', 'Album', 'EP']
