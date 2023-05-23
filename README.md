@@ -226,3 +226,14 @@ copy_button.pack()
 
 # Run the GUI
 root.mainloop()
+
+
+
+
+
+#####
+chose a faire : 
+
+pip install --upgrade openai
+pip install pyperclip
+pip install tkinter

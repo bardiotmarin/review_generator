@@ -6,8 +6,19 @@ import json
 
 os.environ['TK_SILENCE_DEPRECATION'] = '1'
 
+
 # Initialise the API key
-openai.api_key = "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"
+with open('api_key.txt', 'r') as file:
+    api_key = file.read().strip()
+
+openai.api_key = api_key
+
+# # account_info = openai.Account.retrieve()
+# remaining_credits = account_info['data'][0]['attributes']['usage']['available']
+# print("Remaining API credits:", remaining_credits)
+
+#faire un cache avec les réponse pour éviter de les générer à chaque fois
+response_cache = {}
 
 
 # Load the JSON file
@@ -77,9 +88,10 @@ def generate_response():
     mix_quality = mix_quality_var.get()
     mix_ameliorations = mix_quality_trouble_var.get()
     mastering_quality = mastering_quality_var.get()
+    agency_name = agency_entry.get()
     temperature = float(temperature)
     engine = ENGINES[language]
-    prompt = f"Write an objective music review for the latest {project} titled '{single}' by artist '{artist}' in the {genre} genre. The theme & mood revolves around '{theme}'. Describe the musical aspects such as production, arrangements,audio mix quality :{mix_quality}  ,  mastering :{mastering_quality} , including {vocal_or_instrument} (if applicable) and somes advice to arrange or not the mix :{mix_ameliorations} . Analyze the strengths and weaknesses of the project and express your personal opinion on the overall musical value of the album, using a {tones} tone and in {language}. The writing format should be in the form of a {artist_sexe_gender} genre. Add emoji related to the musical theme to enrich your text."
+    prompt = f"Your Write under the name of {agency_name}, an objective music review for the latest {project} titled '{single}' by artist '{artist}' in the {genre} genre. The theme & mood revolves around '{theme}'. Describe the musical aspects such as production, arrangements,audio mix quality :{mix_quality}  ,  mastering :{mastering_quality} , including {vocal_or_instrument} (if applicable) and somes advice to arrange or not the mix :{mix_ameliorations} . Analyze the strengths and weaknesses of the project and express your personal opinion on the overall musical value of the album, using a {tones} tone and in {language}. The writing format should be in the form of a {artist_sexe_gender} genre. Add emoji related to the musical theme to enrich your text."
     completion = openai.Completion.create(
     engine=engine,
     prompt=prompt,
@@ -94,14 +106,15 @@ def generate_response():
 # Define the function to copy the response to the clipboard
 def copy_response():
     pyperclip.copy(response_label['text'])
-
-    def generate_response(event=None):
-        generate_response()
+  #demande clef api
+api_key = input("Enter your API key: ")
+with open('api_key.txt', 'w') as file:
+    file.write(api_key)
 
 # Create the GUI window
 root = tk.Tk()
 root.title("Music Single Review Generator, le meilleur générateur de critique musicale et de moula")
-root.configure(bg='#334386')
+root.configure(bg='#212845')
 
 # Adjust size
 root.geometry("800x800")
@@ -117,6 +130,10 @@ language_var = tk.StringVar(value=LANGUAGES[1])
 language_scale = tk.OptionMenu(root, language_var, *LANGUAGES, command=language_var.set)
 language_scale.pack()
 
+# Add the frame for project information and make it responsive
+frame_project_information = tk.Frame(root)
+frame_project_information.pack(fill=tk.X, padx=10, pady=10)
+
 #add a title to the window information about the artist project
 title_label_project_information = tk.Label(root, text="🔇⬇️ PROJECT INFORMATIONS ⬇️ 🔇")
 title_label_project_information.pack(fill=tk.X, padx=10, pady=10)
@@ -125,6 +142,8 @@ title_label_project_information.pack(fill=tk.X, padx=10, pady=10)
 # Add a frame for project informations
 frame = tk.Frame(root)
 frame.pack()
+
+
 
 # Add the option to choose the genre of the response
 music_genre_label = tk.Label(frame, text="Choose the music genre of the artist:")
@@ -220,6 +239,13 @@ single_label.pack(side='left', padx=10)
 single_entry = tk.Entry(frame, bg='grey')
 single_entry.pack(side='left', padx=10)
 
+# Add a label for the agency name
+agency_label = tk.Label(root, text="Enter your agency name:")
+agency_label.pack()
+
+# Add an entry field for the agency name
+agency_entry = tk.Entry(root, bg='grey')
+agency_entry.pack()
 
 
 # Add the option to choose the type of music
@@ -256,7 +282,7 @@ response_label.pack()
 
 
 # Add the copy button
-copy_button = tk.Button(root, text="🎹 Copy to Clipboard 🎹  -  🪕 Copier La réponse 🪕", command=copy_response, bg='purple', fg='green')
+copy_button = tk.Button(root, text="🎹 Copy to Clipboard 🎹  -  🪕 Copier La réponse 🪕", command=copy_response, bg='white', fg='green')
 copy_button.pack()
 
 # Run the GUI
