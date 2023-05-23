@@ -40,19 +40,29 @@ project = project_var.get() music_type = music_type_var.get() vocal_or_instrumen
 #Define the function to copy the response to the clipboard
 def copy_response(): pyperclip.copy(response_label['text'])
 
-Create the GUI window
+#Create the GUI window
 root = tk.Tk() root.title("Music Single Review Generator, le meilleur générateur de critique musicale et de moula") root.configure(bg='#334386')
 
-Adjust size
+#Adjust size
 root.geometry("800x800")
 
-Add the option to choose the language of the response
-language_label = tk.Label(root, text="Choisissez la langue de la réponse :", bg='purple', fg='white' , width=80, height=2) language_label.pack() language_var = tk.StringVar(value=LANGUAGES[1]) language_scale = tk.OptionMenu(root, language_var, *LANGUAGES, command=language_var.set) language_scale.pack()
+#Add the option to choose the language of the response
+language_label = tk.Label
+(root, text="Choisissez la langue de la réponse :", bg='purple', fg='white' , width=80, height=2)
+language_label.pack()
+language_var = tk.StringVar(value=LANGUAGES[1])
+language_scale = tk.OptionMenu
+(root, language_var, *LANGUAGES, command=language_var.set)
+language_scale.pack()
 
 #add a title to the window information about the artist project title_label_project_information = tk.Label(root, text="🔇⬇️ PROJECT INFORMATIONS ⬇️ 🔇") title_label_project_information.pack(fill=tk.X, padx=10, pady=10)
 
-add the option to choose the genre of the response
-music_genre_label = tk.Label(root, text="Choose the music genre of the artist:") music_genre_label.pack() music_genre_var = tk.StringVar(value=STYLE[0]) music_genre_scale = tk.OptionMenu(root, music_genre_var, *STYLE, command=music_genre_var.set) music_genre_scale.pack()
+#add the option to choose the genre of the response
+music_genre_label = tk.Label(root, text="Choose the music genre of the artist:")
+music_genre_label.pack()
+music_genre_var = tk.StringVar(value=STYLE[0])
+music_genre_scale = tk.OptionMenu(root, music_genre_var, *STYLE, command=music_genre_var.set)
+music_genre_scale.pack()
 
 #Add the mood of the music theme_label = tk.Label(root, text="Choose the music mood for your review:") theme_label.pack() theme_var = tk.StringVar(value=THEMES[0]) theme_scale = tk.OptionMenu(root, theme_var, *THEMES, command=theme_var.set) theme_scale.pack()
 
