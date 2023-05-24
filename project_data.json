@@ -101,7 +101,7 @@
     "Dj",
     "Dj Remixer"
   ],
-  "TONES": [
+  "tones": [
     "Original",
     "Repetitive",
     "Deterministic",
