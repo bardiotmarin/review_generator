@@ -202,6 +202,7 @@ mix_quality_scale.pack(side='left')
 
 frame = tk.Frame(root)
 frame.pack()
+
 # Add the option to choose the mix quality ameliorations
 mix_quality_trouble = tk.Label(frame, text="Choose the mix quality ameliorations of the artist:")
 mix_quality_trouble.pack(side='left')
